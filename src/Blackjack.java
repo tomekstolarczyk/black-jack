@@ -15,6 +15,10 @@ public class Blackjack {
             this.type = type;
             this.value = value;
         }
+
+        public String toString() {
+            return value + "-" + type;
+        }
     }
 
     
@@ -25,11 +29,12 @@ public class Blackjack {
 
     void startGame() {
       //deck
-      buildDeck();
-
+        buildDeck();
+        shuffleDeck();
     }
 
     ArrayList<Card> deck;
+    Random random = new Random();
     
     public void buildDeck() {
 
@@ -42,7 +47,24 @@ public class Blackjack {
                 deck.add(card);
             }
         }
-        System.out.println("Building Deck");
+        System.out.println("-----------------------------------------");
+        System.out.println("Building Deck: \n");
+        System.out.println(deck);
+    }
+
+    public void shuffleDeck() {
+
+        for (int i = 0; i < deck.size(); i++) {
+
+            int randomIndex = random.nextInt(deck.size());
+            Card currentCard = deck.get(i);
+            Card randomCard = deck.get(randomIndex);
+            deck.set(i, randomCard);
+            deck.set(randomIndex, currentCard);
+        }
+
+        System.out.println("-----------------------------------------");
+        System.out.println("Shuffling Deck: \n");
         System.out.println(deck);
     }
 }
