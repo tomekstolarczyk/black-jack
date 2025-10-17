@@ -116,6 +116,17 @@ public class Blackjack {
         buttonPanel.add(stayButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
+        hitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Card card = deck.remove(deck.size()-1);
+                playerSum += card.getValue();
+                playerAceCount += card.isAce()? 1 : 0;
+                playerHand.add(card);
+                gamePanel.repaint();
+            }
+        });
+
+        gamePanel.repaint();
     }
 
     public void startGame() {
