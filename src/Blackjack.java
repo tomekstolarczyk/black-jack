@@ -33,6 +33,10 @@ public class Blackjack {
         public boolean isAce() {
             return value == "A";
         }
+
+        public String getImagePath() {
+            return "./cards/" + toString() + ".png";
+        }
     }
 
     ArrayList<Card> deck;
@@ -54,9 +58,35 @@ public class Blackjack {
     //window
     int boardWidth = 600;
     int boardHeight = boardWidth;
+
+    int cardWidth = 110; //ratio 1/1.4
+    int cardHeight = 154;
     
     JFrame frame = new JFrame("Black Jack");
-    JPanel gamePanel = new JPanel();
+    JPanel gamePanel = new JPanel() {
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            try {
+                //draw hidden card 
+                Image hiddenCardImg = new ImageIcon(getClass().getResource("./cards/BACK.png")).getImage();
+                g.drawImage(hiddenCardImg, 20, 20, cardWidth, cardHeight, null);
+
+                //draw dealer's hand 
+                for (int i = 0; i < dealerHand.size(); i++) {
+                    Card card = dealerHand.get(i);
+
+                    Image cardImg = new ImageIcon(getClass().getResource(card.getImagePath())).getImage();
+                    g.drawImage(cardImg, cardWidth + 25 + (cardWidth+5)*i, 20, cardWidth, cardHeight, null);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
     JPanel buttonPanel = new JPanel();
     JButton hitButton = new JButton("Hit!");
     JButton stayButton = new JButton("Stay -_-");
@@ -124,13 +154,14 @@ public class Blackjack {
         System.out.println(playerHand);
         System.out.println(playerSum);
         System.out.println(playerAceCount);
+
     }
     
     public void buildDeck() {
 
         deck = new ArrayList<Card>();
         String[] values = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        String[] types = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        String[] types = {"H", "D", "C", "S"};
         for (String value : values) {
             for (String type : types) {
                 Card card = new Card(type, value);
