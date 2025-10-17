@@ -51,10 +51,21 @@ public class Blackjack {
     int playerSum;
     int playerAceCount;
 
-
+    //window
+    int boardWidth = 600;
+    int boardHeight = boardWidth;
+    
+    JFrame frame = new JFrame("Black Jack");
 
     Blackjack() {
         startGame();
+
+        frame.setVisible(true);
+        frame.setSize(boardWidth, boardHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     public void startGame() {
