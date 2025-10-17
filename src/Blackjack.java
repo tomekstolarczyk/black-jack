@@ -57,6 +57,9 @@ public class Blackjack {
     
     JFrame frame = new JFrame("Black Jack");
     JPanel gamePanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
+    JButton hitButton = new JButton("Hit!");
+    JButton stayButton = new JButton("Stay -_-");
 
     Blackjack() {
         startGame();
@@ -70,6 +73,13 @@ public class Blackjack {
         gamePanel.setLayout(new BorderLayout());
         gamePanel.setBackground(new Color(53,101,77));
         frame.add(gamePanel);
+
+        hitButton.setFocusable(false);
+        buttonPanel.add(hitButton);
+        stayButton.setFocusable(false);
+        buttonPanel.add(stayButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
     }
 
     public void startGame() {
