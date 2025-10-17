@@ -19,22 +19,49 @@ public class Blackjack {
         public String toString() {
             return value + "-" + type;
         }
+
+        public int getValue() {
+            if (value == "A") {
+                return 11;
+            } else if (value == "K" || value == "Q" || value == "J") {
+                return 10;
+            } else {
+                return Integer.parseInt(value); 
+            }
+        }
+
+        public boolean isAce() {
+            return value == "A";
+        }
     }
 
-    
+    ArrayList<Card> deck;
+    Random random = new Random(); //for deck shuffling
+
+    //dealer
+    Card hiddenCard;
+    ArrayList<Card> dealerHand;
+    int dealerSum;
+    int dealerAceCount;
 
     Blackjack() {
         startGame();
     }
 
-    void startGame() {
+    public void startGame() {
       //deck
         buildDeck();
         shuffleDeck();
-    }
 
-    ArrayList<Card> deck;
-    Random random = new Random();
+        //dealer
+        dealerHand = new ArrayList<Card>();
+        dealerSum = 0;
+        dealerAceCount = 0;
+        
+        hiddenCard = deck.remove(deck.size()-1); //remove card at last index 
+        dealerSum += hiddenCard.getValue();
+        dealerAceCount += hiddenCard.isAce() ? 1 : 0;
+    }
     
     public void buildDeck() {
 
