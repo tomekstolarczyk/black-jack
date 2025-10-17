@@ -38,12 +38,19 @@ public class Blackjack {
     ArrayList<Card> deck;
     Random random = new Random(); //for deck shuffling
 
+    Card card;
+
     //dealer
     Card hiddenCard;
-    Card dealerFirstCard;
     ArrayList<Card> dealerHand;
     int dealerSum;
     int dealerAceCount;
+
+    //player 
+    ArrayList<Card> playerHand;
+    int playerSum;
+    int playerAceCount;
+
 
     Blackjack() {
         startGame();
@@ -63,10 +70,10 @@ public class Blackjack {
         dealerSum += hiddenCard.getValue();
         dealerAceCount += hiddenCard.isAce() ? 1 : 0;
 
-        dealerFirstCard = deck.remove(deck.size()-1);
-        dealerSum += dealerFirstCard.getValue();
-        dealerAceCount += dealerFirstCard.isAce() ? 1 : 0;
-        dealerHand.add(dealerFirstCard);
+        card = deck.remove(deck.size()-1);
+        dealerSum += card.getValue();
+        dealerAceCount += card.isAce() ? 1 : 0;
+        dealerHand.add(card);
 
         System.out.println("Dealer: ");
         System.out.println(hiddenCard);
@@ -74,6 +81,23 @@ public class Blackjack {
         System.out.println(dealerSum);
         System.out.println(dealerAceCount);
 
+        //player 
+
+        playerHand = new ArrayList<Card>();
+        playerSum = 0;
+        playerAceCount = 0;
+        
+        for (int i = 0; i<2; i++) {
+            card = deck.remove(deck.size()-1);
+            playerSum += card.getValue();
+            playerAceCount += card.isAce() ? 1 : 0;
+            playerHand.add(card);
+        }
+
+        System.out.println("Player: ");
+        System.out.println(playerHand);
+        System.out.println(playerSum);
+        System.out.println(playerAceCount);
     }
     
     public void buildDeck() {
