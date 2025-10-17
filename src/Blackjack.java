@@ -40,6 +40,7 @@ public class Blackjack {
 
     //dealer
     Card hiddenCard;
+    Card dealerFirstCard;
     ArrayList<Card> dealerHand;
     int dealerSum;
     int dealerAceCount;
@@ -61,6 +62,18 @@ public class Blackjack {
         hiddenCard = deck.remove(deck.size()-1); //remove card at last index 
         dealerSum += hiddenCard.getValue();
         dealerAceCount += hiddenCard.isAce() ? 1 : 0;
+
+        dealerFirstCard = deck.remove(deck.size()-1);
+        dealerSum += dealerFirstCard.getValue();
+        dealerAceCount += dealerFirstCard.isAce() ? 1 : 0;
+        dealerHand.add(dealerFirstCard);
+
+        System.out.println("Dealer: ");
+        System.out.println(hiddenCard);
+        System.out.println(dealerHand);
+        System.out.println(dealerSum);
+        System.out.println(dealerAceCount);
+
     }
     
     public void buildDeck() {
