@@ -61,6 +61,9 @@ public class Blackjack {
 
     int cardWidth = 110; //ratio 1/1.4
     int cardHeight = 154;
+
+    // NOWA ZMIENNA: 0 = Czekanie, 1 = Odkrywanie, 2 = Dobieranie/Koniec
+    private int dealerPhase = 0;
     
     JFrame frame = new JFrame("Black Jack");
     JPanel gamePanel = new JPanel() {
@@ -90,7 +93,7 @@ public class Blackjack {
                     g.drawImage(cardImg, 20 + (cardWidth+5)*i, 320, cardWidth, cardHeight, null);
                 }
 
-                if (!stayButton.isEnabled()) {
+                if (dealerPhase == 3) {
                     dealerSum = reduceDealerAce();
                     playerSum = reducePlayerAce();
                     System.out.println("STAY:");
@@ -168,15 +171,43 @@ public class Blackjack {
                 hitButton.setEnabled(false);
                 stayButton.setEnabled(false);
 
-                while(dealerSum < 17) {
-                    Card card = deck.remove(deck.size()-1);
-                    dealerSum += card.getValue();
-                    dealerAceCount += card.isAce()? 1 : 0;
-                    dealerHand.add(card);
-                    
-                }
+                dealerPhase = 1; // faza 1 odkrywanie karty zakrytej
 
                 gamePanel.repaint();
+
+                Timer dealerTimer = new Timer(1000, null); // Opóźnienie 1000ms (1 sekunda)
+
+                dealerTimer.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        
+                        if (dealerPhase == 1) {
+                            // FAZA 2: Odkryj kartę i przejdź do dobierania
+                            dealerPhase = 2;
+                        }
+                        else if (dealerPhase == 2) {
+                            // A. Sprawdź, czy krupier musi dobrać kartę
+                            if (reduceDealerAce() < 17) {
+                                Card card = deck.remove(deck.size()-1);
+                                dealerSum += card.getValue();
+                                dealerAceCount += card.isAce()? 1 : 0;
+                                dealerHand.add(card); // DODAJ NOWĄ KARTĘ
+            
+                            } else {
+                                // B. Krupier zakończył dobieranie
+                                dealerPhase = 3;
+                                dealerTimer.stop(); // Zatrzymaj timer, koniec tury!
+                                
+                            }
+                                
+                            // C. Odśwież widok po każdej karcie/kroku
+                            gamePanel.repaint();
+                            }
+                        }
+
+
+                });
+
+                dealerTimer.start();
                 
             }
         });
